@@ -148,33 +148,31 @@ namespace SoftwareEngineeringProject
         {
             this.Close();
         }
+
         protected List<string> getRecommendedGames(string propFitness , string propSpeed , string propTallness , string propWeight)
         {
-            List<string> recommendedGames = new List<string>();
+            List<string> RecommendedGames = new List<string>();
 
-            List<string> currentMember = new List<string>();
-            currentMember.Add(propFitness.ToLower());
-            currentMember.Add(propSpeed.ToLower());
-            currentMember.Add(propTallness.ToLower());
-            currentMember.Add(propWeight.ToLower());
+            List<string> CurrentMember = new List<string>();
+            CurrentMember.Add(propFitness.ToLower());
+            CurrentMember.Add(propSpeed.ToLower());
+            CurrentMember.Add(propTallness.ToLower());
+            CurrentMember.Add(propWeight.ToLower());
 
             XDocument xmlFile = XDocument.Load("E:\\R.xml");
             foreach (var Rule in xmlFile.Descendants("Rule"))
             {
                 string gameName = Rule.Attribute("GameName").Value.ToString();
-                List<string> gamesAttrib = new List<string>();
+                List<string> gameAttributes = new List<string>();
 
-                XDocument xmlRule = XDocument.Parse(Rule.ToString());
-                foreach (var tuble in xmlRule.Descendants("tuble"))
+                foreach (var Tuple in Rule.Descendants("tuble"))
                 {
-                    string Xattrib = tuble.Attribute("Value").Value.ToLower();
-                    gamesAttrib.Add(Xattrib);
+                    gameAttributes.Add(Tuple.Attribute("Value").Value.ToString().ToLower());
                 }
-
-                if (currentMember[0] == gamesAttrib[0] && currentMember[1] == gamesAttrib[1] && currentMember[2] == gamesAttrib[2] && currentMember[3] == gamesAttrib[3])
-                    recommendedGames.Add(gameName);
+                if (gameAttributes[0] == CurrentMember[0] && gameAttributes[1] == CurrentMember[1] && gameAttributes[2] == CurrentMember[2] && gameAttributes[3] == CurrentMember[3])
+                    RecommendedGames.Add(gameName);
             }
-            return recommendedGames;
+            return RecommendedGames;
         }
     }
 }
